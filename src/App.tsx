@@ -1,33 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, ChangeEvent } from 'react';
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [editorText, setEditorText] = useState('');
+  const defaultValue = `# Welcome to my React Markdown Previewer!`;
+
+  const handleInputChange = (e: ChangeEvent): void => {
+    const target = e.target as HTMLTextAreaElement;
+    console.log('event', target.value);
+    setEditorText(target.value);
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className='m-8 md:container md:mx-auto flex flex-col lg:flex-row'>
+        <div className="editorWrap flex-1">
+          <div className="editorHeader">Editor</div>
+          <textarea id="editor" onChange={handleInputChange} className='w-full' value="">
+            {defaultValue}
+          </textarea>
+        </div>
+        <div className="previewWrap flex-1">
+          <div className="previewHeader">Preview</div>
+          <div id="preview">
+            {editorText}
+          </div>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
